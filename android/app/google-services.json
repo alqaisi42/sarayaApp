@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "982816316485",
+    "project_id": "saraya-a1cdd",
+    "storage_bucket": "saraya-a1cdd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:982816316485:android:11e0ebe25c3cfb4f65972c",
+        "android_client_info": {
+          "package_name": "com.newsHunt.hunt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANHvlFOJUaeo5kxWQvEmyhibxryUlK5rU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
