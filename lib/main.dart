@@ -15,6 +15,9 @@ import 'package:hive_flutter/hive_flutter.dart';
 import '../../../l10n/app_localizations.dart';
 import 'package:newsapp/routes/app_routes.dart';
 import 'package:newsapp/screens/videoNews/videoNewsBloc/video_newsall_bloc.dart';
+import 'bloc/chatBotBloc/chatbot_bloc.dart';
+import 'config/openai/openai_service.dart';
+import 'utils/widgets/chatbot_float_button.dart';
 import 'bloc/authBloc/auth_bloc.dart';
 import 'bloc/blocRepository/weather_repo.dart';
 import 'bloc/bookmark/bookmark_article_bloc.dart';
@@ -422,6 +425,7 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => VerifyPaymentBloc()),
         BlocProvider(create: (context) => SubscriptionCountBloc()),
         BlocProvider(create: (context) => VideoNewsBloc()),
+        BlocProvider(create: (context) => ChatBotBloc(OpenAIService())),
       ],
       child: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -429,22 +433,31 @@ class _MyAppState extends State<MyApp> {
           builder: (context, themeState) {
             return BlocBuilder<LanguageBloc, LanguageState>(
               builder: (context, languageState) {
-                return  MaterialApp.router(
-                    key: navigatorKey,
-                    localizationsDelegates: const [
-                      AppLocalizations.delegate,
-                      GlobalMaterialLocalizations.delegate,
-                      GlobalWidgetsLocalizations.delegate,
-                      GlobalCupertinoLocalizations.delegate,
-                    ],
-                    locale: languageState.locale,
-                    supportedLocales: supportedLocales,
-                    debugShowCheckedModeBanner: false,
-                    routerConfig: router,
-                    theme: lightMode,
-                    darkTheme: darkMode,
-                    themeMode: themeState,
-                  );
+                return Stack(
+                  children: [
+                    MaterialApp.router(
+                      key: navigatorKey,
+                      localizationsDelegates: const [
+                        AppLocalizations.delegate,
+                        GlobalMaterialLocalizations.delegate,
+                        GlobalWidgetsLocalizations.delegate,
+                        GlobalCupertinoLocalizations.delegate,
+                      ],
+                      locale: languageState.locale,
+                      supportedLocales: supportedLocales,
+                      debugShowCheckedModeBanner: false,
+                      routerConfig: router,
+                      theme: lightMode,
+                      darkTheme: darkMode,
+                      themeMode: themeState,
+                    ),
+                    const Positioned(
+                      bottom: 16,
+                      right: 16,
+                      child: ChatBotFloatButton(),
+                    ),
+                  ],
+                );
                 },
             );
           },

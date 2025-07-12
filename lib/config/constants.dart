@@ -24,6 +24,10 @@ const String defaulIsoCountryCode = "IN";
 const String weatherBaseUrl = "https://api.openweathermap.org/data/2.5/weather";
 const String weatherKey = "7a40f5b011a04cd08fc5fd45573ac228";
 
+//=========================== OpenAI API =============================
+// Replace the key below with your actual OpenAI API key.
+const String openAIApiKey = 'YOUR_OPENAI_API_KEY';
+
 
 
 
