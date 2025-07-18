@@ -36,7 +36,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get discoverTitle => 'استكشاف';
 
   @override
-  String get bookmarkTitle => 'الإشارات المرجعية';
+  String get bookmarkTitle => 'الإشارات';
 
   @override
   String get collectionOfNoteworthyReads => 'مجموعة من القراءات المهمة';

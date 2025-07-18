@@ -200,24 +200,17 @@ class _DisplayPopularNewsState extends State<DisplayPopularNews> {
                       Container(
                         width: 30,
                         height: 30,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: ImageUtils.networkImageProvider(widget.logo),
-                            alignment: Alignment.center,
-                          ),
-                          color: Colors.grey[200],
-                        ),
                         child: ClipOval(
-                          child: Image(
-                            image: ImageUtils.networkImageProvider(widget.logo),
-                            fit: BoxFit.cover,
-                            width: 30,
-                            height: 30,
-
-
+                          child: Container(
+                            color: Colors.white, // Background color
+                            width: 40,
+                            height: 40,
+                            child: Image.asset(
+                              'assets/img/new_logo.png',
+                              fit: BoxFit.fitWidth,
+                            ),
                           ),
-                        ),
+                        )
                       ),
                       SizedBox(width: MediaQueryHelper.screenWidth(context) * 0.02),
                       Text(

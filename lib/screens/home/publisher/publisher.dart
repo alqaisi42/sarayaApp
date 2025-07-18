@@ -109,19 +109,19 @@ class _PublisherState extends State<Publisher> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
-                                width: MediaQueryHelper.screenWidth(context) *
-                                    0.17,
-                                height: MediaQueryHelper.screenHeight(context) *
-                                    0.05,
-                                decoration: BoxDecoration(
-
-                                  borderRadius: BorderRadius.circular(10),
-                                  image: DecorationImage(
-                                    image: ImageUtils.networkImageProvider(channelData.logo),
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-
+                                  width: 60,
+                                  height: 60,
+                                  child: ClipOval(
+                                    child: Container(
+                                      color: Colors.white, // Background color
+                                      width: 60,
+                                      height: 60,
+                                      child: Image.asset(
+                                        'assets/img/new_logo.png',
+                                        fit: BoxFit.fitWidth,
+                                      ),
+                                    ),
+                                  )
                               ),
                               SizedBox(
                                   height:

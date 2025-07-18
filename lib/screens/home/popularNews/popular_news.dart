@@ -118,6 +118,7 @@ class _PopularNewsState extends State<PopularNews> {
         } else if (state is PopularLoadingState) {
           return Column(
             children: [
+              SizedBox(height: 20),
               ShimmerWidget(
                 width: MediaQueryHelper.screenWidth(context),
                 height: MediaQueryHelper.screenHeight(context) * 0.1,

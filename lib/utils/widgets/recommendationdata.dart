@@ -56,7 +56,7 @@ class RecommendationList extends StatelessWidget {
         child: Container(
           margin: const EdgeInsets.only(bottom: 7),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(5),
             color: Theme.of(context).colorScheme.primary,
           ),
           child: Padding(
@@ -79,7 +79,7 @@ class RecommendationList extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 child: ImageUtils.networkImage(
                   postType == 'video' ? videoThumb : coverImg,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fitWidth,
                   width: MediaQueryHelper.screenWidth(context) * 0.3,
                   height: MediaQueryHelper.screenHeight(context) * 0.1,
                 ),
@@ -131,26 +131,19 @@ class RecommendationList extends StatelessWidget {
                         children: [
                           // ImageUtils.networkImage(logo,fit: BoxFit.cover,height: MediaQueryHelper.screenHeight(context) * 0.04),
                           Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: ImageUtils.networkImageProvider(logo),
-                                alignment: Alignment.center,
-                              ),
-                              color: Colors.grey[200],
-                            ),
-                            child: ClipOval(
-                              child: Image(
-                                image: ImageUtils.networkImageProvider(logo),
-                                fit: BoxFit.cover,
-                                width: 40,
-                                height: 40,
-
-
-                              ),
-                            ),
+                              width: 30,
+                              height: 30,
+                              child: ClipOval(
+                                child: Container(
+                                  color: Colors.white, // Background color
+                                  width: 40,
+                                  height: 40,
+                                  child: Image.asset(
+                                    'assets/img/new_logo.png',
+                                    fit: BoxFit.fitWidth,
+                                  ),
+                                ),
+                              )
                           ),
                           SizedBox(width: MediaQueryHelper.screenWidth(context) * 0.02),
                           Column(
