@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
+import '../../../config/helper/helper_functions.dart';
 
 import '../../../l10n/app_localizations.dart';
 import 'BreakingNewsBloc.dart';
@@ -78,7 +79,7 @@ class BreakingNewsWidget extends StatelessWidget {
 
   Widget buildNewsCard(BuildContext context, NewsModel news) {
     return GestureDetector(
-      onTap: () => context.push('/post/${news.slug}'),
+      onTap: () => checkLimitAndNavigate(context, news.slug ?? ''),
       child: Container(
         width: 250,
         margin: const EdgeInsets.only(right: 8),
@@ -167,7 +168,7 @@ class BreakingNewsWidget extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          'USA Today',
+                          news.channelName ?? '',
                           style: const TextStyle(fontSize: 11, color: Colors.white70),
                         ),
                       ],
@@ -175,23 +176,9 @@ class BreakingNewsWidget extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          '4h ago',
+                          formatDate(news.pubDate ?? ''),
                           style: const TextStyle(fontSize: 11, color: Colors.white60),
                         ),
-                        const SizedBox(width: 6),
-                        const Text('•', style: TextStyle(color: Colors.white38)),
-                        const SizedBox(width: 6),
-                        Text(
-                          '5 min read',
-                          style: const TextStyle(fontSize: 11, color: Colors.white60),
-                        ),
-                        // const SizedBox(width: 6),
-                        // const Text('•', style: TextStyle(color: Colors.white38)),
-                        // const SizedBox(width: 6),
-                        // Text(
-                        //   '${news.upvotes ?? 54} upvote',
-                        //   style: const TextStyle(fontSize: 11, color: Colors.white60),
-                        // ),
                       ],
                     ),
                   ],

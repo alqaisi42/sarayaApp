@@ -63,7 +63,6 @@ import '../chatbot/chatbot_screen.dart';
 import 'BreakingNewsWidget/BreakingNewsBloc.dart';
 import 'BreakingNewsWidget/BreakingNewsEvent.dart';
 import 'BreakingNewsWidget/BreakingNewsWidget.dart';
-import 'BreakingNewsWidget/news_repository.dart';
 import 'categoryNews/category_news.dart';
 import 'stories/homepage_stories.dart';
 
@@ -102,6 +101,7 @@ class _MyHomeState extends State<MyHome> with TickerProviderStateMixin {
     _appLinksDeepLink.initDeepLinks(context);
     context.read<NewsTopicBloc>().add(FetchNewsTopic());
     context.read<NotificationBloc>().add(FetchNotification(initialValue: 1, context: context));
+    context.read<BreakingNewsBloc>().add(FetchBreakingNews(context: context));
 
     CheckInternet.initConnectivity().then((results) {
       if (mounted && results.isNotEmpty) {
@@ -164,6 +164,7 @@ class _MyHomeState extends State<MyHome> with TickerProviderStateMixin {
     context.read<NotificationBloc>().add(FetchNotification(initialValue: 1, context: context, fcmToken: _fcmToken));
     context.read<WeatherBloc>().add(FetchWeatherData(lat: latitude, lon: longitude, reFetch: true));
     context.read<StoriesBloc>().add(FetchStories(reFetch: true));
+    context.read<BreakingNewsBloc>().add(FetchBreakingNews(context: context));
     initNotification();
   }
 
@@ -233,14 +234,7 @@ class _MyHomeState extends State<MyHome> with TickerProviderStateMixin {
                       // CustomSlider(),
 
                       // SizedBox(height: 5),
-                      BlocProvider(
-                        create: (context) {
-                          final bloc = BreakingNewsBloc(newsRepository: NewsRepository());
-                          Future.microtask(() => bloc.add(FetchBreakingNews(context: context)));
-                          return bloc;
-                        },
-                        child: BreakingNewsWidget(),
-                      ),
+                      BreakingNewsWidget(),
                       PopularNews(),
                       Publisher(),
                       SizedBox(height: 10,),
