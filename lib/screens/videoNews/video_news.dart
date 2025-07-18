@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:video_player/video_player.dart';
 import 'package:newsapp/screens/videoNews/videoNewsBloc/video_news_all_event.dart';
 import 'package:newsapp/screens/videoNews/videoNewsBloc/video_newsall_bloc.dart';
 import 'package:newsapp/screens/videoNews/videoNewsBloc/video_newsall_state.dart';
@@ -23,23 +24,58 @@ class VideoNews extends StatefulWidget {
 }
 
 class _VideoNewsState extends State<VideoNews> {
-  final ScrollController _scrollController = ScrollController();
+  final PageController _pageController = PageController();
+  VideoPlayerController? _videoController;
+  int _currentIndex = 0;
+  bool _isInitialized = false;
 
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_onScroll);
+    _pageController.addListener(_onPageScroll);
     context.read<VideoNewsBloc>().add(FetchVideoNews(initialValue: 1, context: context));
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    _pageController.dispose();
+    _videoController?.dispose();
     super.dispose();
   }
 
-  void _onScroll() {
-    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+  void _onPageScroll() {
+    if (_pageController.position.pixels == _pageController.position.maxScrollExtent) {
+      context.read<VideoNewsBloc>().add(FetchMoreVideoNews(context: context));
+    }
+  }
+
+  Future<void> _initializeVideo(List<dynamic> data, int index) async {
+    if (index < 0 || index >= data.length) return;
+    final url = data[index].video ?? '';
+    if (url.isEmpty) return;
+
+    final oldController = _videoController;
+    final controller = VideoPlayerController.network(url);
+    await controller.initialize();
+    controller.setLooping(true);
+    controller.play();
+
+    setState(() {
+      _videoController = controller;
+      _isInitialized = true;
+    });
+
+    oldController?.dispose();
+  }
+
+  void _onPageChanged(int index, List<dynamic> data) {
+    setState(() {
+      _currentIndex = index;
+      _isInitialized = false;
+    });
+    _initializeVideo(data, index);
+
+    if (index >= data.length - 2) {
       context.read<VideoNewsBloc>().add(FetchMoreVideoNews(context: context));
     }
   }
@@ -116,50 +152,85 @@ class _VideoNewsState extends State<VideoNews> {
       );
     }
 
-    return ListView.builder(
-      controller: _scrollController,
-      itemCount: allData.length + 1,
+    if (_videoController == null && allData.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          _initializeVideo(allData, 0);
+        }
+      });
+    }
+
+    return PageView.builder(
+      controller: _pageController,
+      scrollDirection: Axis.vertical,
+      onPageChanged: (index) => _onPageChanged(index, allData),
+      itemCount: allData.length,
       itemBuilder: (context, index) {
-        if (index == allData.length) {
-          if (state is VideoNewsLoadingMoreState) {
-            return Center(child: CircularProgressIndicator(color: AppColors().primaryColor));
-          } else {
-            return const SizedBox.shrink();
-          }
-        }
-
-        // Add banner ads every 4 items
-        if ( context.read<VideoNewsBloc>().showAds == false) {
-          if (index > 0 && index % 4 == 0) {
-            return const Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.0),
-              child: AdBannerWidget(),
-            );
-          }
-        }
-
-        final dataIndex = index - (index ~/ 4);
-        if (dataIndex >= allData.length) return const SizedBox.shrink();
-
-        final item = allData[dataIndex];
+        final item = allData[index];
+        final bool active = index == _currentIndex;
         return GestureDetector(
           onTap: () async {
-
             checkLimitAndNavigate(context, item.slug);
           },
-          child: VideoNewsCard(
-            id: item.id ?? 0,
-            viewCount: item.viewCount ?? 0,
-            coverImg: item.image ?? '',
-            title: item.title ?? '',
-            channelSlug: item.channelSlug ?? '',
-            logo: item.channelLogo ?? '',
-            publisher: item.channelName ?? '',
-            time: item.publishDate ?? '',
-            slug: item.slug ?? '',
-            postType: item.type ?? "",
-            videoThumb: item.videoThumb ?? "",
-            video: item.video ?? "",
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: active && _isInitialized
+                    ? FittedBox(
+                        fit: BoxFit.cover,
+                        child: SizedBox(
+                          width: _videoController!.value.size.width,
+                          height: _videoController!.value.size.height,
+                          child: VideoPlayer(_videoController!),
+                        ),
+                      )
+                    : Image.network(
+                        item.videoThumb ?? '',
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: double.infinity,
+                      ),
+              ),
+              Positioned(
+                bottom: 80,
+                left: 16,
+                right: 16,
+                child: Text(
+                  item.title ?? '',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: 40,
+                left: 16,
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: NetworkImage(item.channelLogo ?? ''),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      item.channelName ?? '',
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                bottom: 10,
+                left: 16,
+                child: ViewCountDisplay(
+                  slug: item.slug ?? '',
+                  initialViewCount: item.viewCount ?? 0,
+                  postImg: item.image ?? '',
+                  isNeed: false,
+                ),
+              ),
+            ],
           ),
         );
       },
