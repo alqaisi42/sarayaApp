@@ -82,6 +82,8 @@ import 'bloc/userChannelFollowListBloc/user_channelfollow_bloc.dart';
 import 'bloc/verifyPaymentBloc/verify_payment_bloc.dart';
 import 'bloc/viewCountBloc/view_count_bloc.dart';
 import 'bloc/weatherBloc/weather_bloc.dart';
+import 'screens/home/BreakingNewsWidget/BreakingNewsBloc.dart';
+import 'screens/home/BreakingNewsWidget/news_repository.dart';
 
 import 'config/googleAdMob/open_ad.dart';
 import 'config/helper/helper_functions.dart';
@@ -365,6 +367,7 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => LanguageBloc.instance),
         BlocProvider(create: (context) => AuthBloc()),
         BlocProvider(create: (context) => SliderBloc()),
+        BlocProvider(create: (context) => BreakingNewsBloc(newsRepository: NewsRepository())),
         BlocProvider(create: (context) => PopularBloc()),
         BlocProvider(create: (context) => PopularNewsAllBloc()),
         BlocProvider(create: (context) => ChannelBloc()),

@@ -16,6 +16,7 @@ const String favoritesAddURL = "$apiUrl/favorites/add";
 const String favoritesRemoveURL = "$apiUrl/favorites/remove";
 const String recommendationNewsURL = "$apiUrl/fetch-feeds/recommended";
 const String newsTopicUrl = "$apiUrl/fetch-feeds/topics";
+const String breakingNewsUrl = "$apiUrl/fetch-feeds/topic/12";
 const String categoryUrl = "$apiUrl/fetch-feeds/topic/";
 const String getChannelPageUrl = "$apiUrl/fetch-feeds/channels";
 const String channelPageDataUrl = "$apiUrl/fetch-feeds/channel/posts";
