@@ -31,8 +31,8 @@ class RelatedPostDisplay extends StatelessWidget {
             child: Text(
               AppLocalizations.of(context)!.relatedPosts,
               style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
 
                 fontFamily: fontType
               ),

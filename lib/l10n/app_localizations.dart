@@ -192,6 +192,18 @@ abstract class AppLocalizations {
   /// **'Theme'**
   String get theme;
 
+  /// No description provided for @sarayaBotWelcome.
+  ///
+  /// In en, this message translates to:
+  /// **'👋 Welcome! Tell us your issue or feedback clearly, mention the place, issue type, and any important details. Leave your phone if you\'d like a follow-up.'**
+  String get sarayaBotWelcome;
+
+  /// No description provided for @breakingNews.
+  ///
+  /// In en, this message translates to:
+  /// **'Breaking News'**
+  String get breakingNews;
+
   /// No description provided for @you.
   ///
   /// In en, this message translates to:
@@ -257,6 +269,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Privacy Policy'**
   String get privacyPolicy;
+
+  /// No description provided for @urgent.
+  ///
+  /// In en, this message translates to:
+  /// **'Urgent'**
+  String get urgent;
 
   /// No description provided for @getStarted.
   ///
@@ -497,6 +515,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Share'**
   String get share;
+
+  /// No description provided for @sarayaBotTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ain Saraya'**
+  String get sarayaBotTitle;
 
   /// No description provided for @logInWithApple.
   ///

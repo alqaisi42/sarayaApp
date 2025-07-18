@@ -18,3 +18,6 @@ class SendChatMessage extends ChatBotEvent {
   List<Object?> get props => [message, image?.path];
 }
 
+
+class ClearChatMessages extends ChatBotEvent {}
+

@@ -9,7 +9,7 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
-  String get appName => 'نيوز هانت';
+  String get appName => 'وكالة سرايا الإخبارية';
 
   @override
   String get popularNews => 'الأخبار الشائعة';
@@ -24,7 +24,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get seeAll => 'عرض الكل';
 
   @override
-  String get forYou => 'لك';
+  String get forYou => 'الرئيسية';
 
   @override
   String get homeTitle => 'الرئيسية';
@@ -52,6 +52,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get theme => 'السمة';
+
+  @override
+  String get sarayaBotWelcome =>
+      'مرحبًا فيك 👋 احكيلنا مشكلتك أو ملاحظتك بشكل واضح، ويفضّل تذكر المكان، نوع المشكلة، وأي تفاصيل مهمة. وإذا بتحب نحكي معك، اترك رقم تلفونك.';
+
+  @override
+  String get breakingNews => 'الأخبار العاجلة';
 
   @override
   String get you => 'أنت';
@@ -86,6 +93,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get privacyPolicy => 'سياسة الخصوصية';
+
+  @override
+  String get urgent => 'عاجل';
 
   @override
   String get getStarted => 'ابدأ الآن';
@@ -211,6 +221,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get share => 'مشاركة';
 
   @override
+  String get sarayaBotTitle => 'عين سرايا';
+
+  @override
   String get logInWithApple => 'تسجيل الدخول باستخدام أبل';
 
   @override
@@ -233,7 +246,7 @@ class AppLocalizationsAr extends AppLocalizations {
       'تحتاج إلى تسجيل الدخول لعرض هذه الصفحة.';
 
   @override
-  String get signInToNewsHunt => 'سجل الدخول إلى نيوز هانت';
+  String get signInToNewsHunt => 'سجل الدخول إلى وكالة سرايا الإخبارية';
 
   @override
   String get logInWithGoogle => 'تسجيل الدخول باستخدام Google';

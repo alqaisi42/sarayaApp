@@ -16,17 +16,16 @@ const appStoreId = "YOUR_APP_STORE_ID";
 
 
 const String defaultLanguage = "en";
-const String defaultCountryCode = "+91";
-const String defaulIsoCountryCode = "IN";
-
+const String defaultCountryCode = "+962";
+const String defaulIsoCountryCode = "JO";
 
 
 const String weatherBaseUrl = "https://api.openweathermap.org/data/2.5/weather";
-const String weatherKey = "7a40f5b011a04cd08fc5fd45573ac228";
+const String weatherKey = "";
 
 //=========================== OpenAI API =============================
 // Replace the key below with your actual OpenAI API key.
-const String openAIApiKey = 'YOUR_OPENAI_API_KEY';
+const String openAIApiKey = '';
 
 
 
@@ -43,7 +42,7 @@ const String openAdMobKey = 'YOUR_ADMOB_ID';
 
 
 // ========================================== Font Family
-const String fontType = "Poppins";
+const String fontType = "gesstwo";
 
 
 

@@ -171,18 +171,19 @@ class _DetailPageState extends State<DetailPage> {
     return  _connectionStatus.contains(connectivityCheck)
               ? NoInternetScreen()
               : Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight),
-        child: BlocBuilder<FullScreenBloc, FullScreenState>(
-          builder: (context, state) {
-            return state.isFullScreen
-                ?  SizedBox.shrink()
-                : AppBar(
-              title: DetailPageHeader(slug: widget.slug),
-            );
-          },
-        ),
-      ),
+                 appBar: PreferredSize(
+                   preferredSize: Size.fromHeight(kToolbarHeight),
+                   child: BlocBuilder<FullScreenBloc, FullScreenState>(
+                     builder: (context, state) {
+                       return state.isFullScreen
+                           ?  SizedBox.shrink()
+                           : AppBar(
+                              backgroundColor: AppColors().primaryColor,
+                              title: DetailPageHeader(slug: widget.slug),
+                       );
+                       },
+                   ),
+                 ),
 
                   body: RefreshIndicator(
                     onRefresh: _refreshContent,
@@ -212,11 +213,8 @@ class _DetailPageState extends State<DetailPage> {
                                 onButtonPressed: () {
                                   initializeAsync();
                                 },
-
                               );
                             }
-
-
 
                             return SingleChildScrollView(
                               controller: _scrollController,

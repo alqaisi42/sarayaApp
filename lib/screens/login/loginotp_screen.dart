@@ -11,6 +11,7 @@ import '../../bloc/authBloc/auth_event.dart';
 import '../../bloc/authBloc/auth_state.dart';
 import '../../../l10n/app_localizations.dart';
 
+import '../../config/colors.dart';
 import '../../config/constants.dart';
 
 import '../../config/helper/helper_functions.dart';
@@ -124,7 +125,7 @@ class LoginotpscreenState extends State<Loginotpscreen> {
                   fullBorder: true,
                   digitsOnly: true,
                   keyboardType: TextInputType.number,
-                  underlineColor: Colors.blue,
+                  underlineColor: AppColors().primaryColor,
 
                   length: 6,
                   cursorColor: Theme.of(context).textSelectionTheme.cursorColor,
@@ -210,7 +211,7 @@ class LoginotpscreenState extends State<Loginotpscreen> {
                           : null,
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.symmetric(vertical: 15.0),
-                        backgroundColor: Colors.blue,
+                        backgroundColor: AppColors().primaryColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),

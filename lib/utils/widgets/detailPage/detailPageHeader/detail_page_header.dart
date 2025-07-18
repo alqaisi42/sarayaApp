@@ -29,7 +29,7 @@ class DetailPageHeaderState extends State<DetailPageHeader> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        LanguageSelector(),
+        // LanguageSelector(),
         BlocBuilder<BookmarkArticleBloc, BookmarkArticleState>(
           builder: (context, state) {
             state as BookmarkArticleAll;
@@ -54,7 +54,7 @@ class DetailPageHeaderState extends State<DetailPageHeader> {
                     : HeroiconsOutline.bookmark,
                 color: state.slugs.contains(widget.slug)
                     ? AppColors().primaryColor
-                    : Colors.grey.shade500,
+                    : Colors.white,
               ),
             );
           },

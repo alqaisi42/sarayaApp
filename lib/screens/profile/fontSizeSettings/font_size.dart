@@ -86,7 +86,7 @@ class _FontSizePopupState extends State<FontSizePopup> {
                 ),
                 value: _fontSizes[index],
                 groupValue: _selectedFontSize,
-                activeColor: Colors.blue,
+                activeColor: AppColors().primaryColor,
                 onChanged: (FontSize? value) {
                   setState(() {
                     _selectedFontSize = value!;

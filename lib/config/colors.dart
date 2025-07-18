@@ -12,10 +12,28 @@ class AppColors {
   AppColors([this.context]);
 
 
-  MaterialColor get primaryColor => Colors.blue;
-  Color get storiesTitle => primaryColor[300]!;
+  MaterialColor get primarySwatch => const MaterialColor(
+    0xFF0F385A,
+    <int, Color>{
+      50: Color(0xFFE6EBEF),
+      100: Color(0xFFC0CDD9),
+      200: Color(0xFF97ABBF),
+      300: Color(0xFF6D89A5), // 👈 This is storiesTitle
+      400: Color(0xFF4D6F91),
+      500: Color(0xFF0F385A),
+      600: Color(0xFF0D3252),
+      700: Color(0xFF0A2B48),
+      800: Color(0xFF08243F),
+      900: Color(0xFF04172E),
+    },
+  );
+
+  Color get primaryColor => primarySwatch;
+  Color get storiesTitle => primarySwatch[300]!;
 
   bool get isDark => context != null && Theme.of(context!).brightness == Brightness.dark;
+
+
 
 
   static const Color whiteColor = Color(0xFFFFFFFF);

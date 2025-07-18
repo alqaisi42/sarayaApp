@@ -128,7 +128,7 @@ String formatNumber(int number) {
 
 
 class ImageUtils {
-  static const String defaultImage = 'assets/img/logo.png';
+  static const String defaultImage = 'assets/img/new_logo.png';
 
   static ImageProvider networkImageProvider(String? imageUrl) {
     if (imageUrl == null || imageUrl.isEmpty || !imageUrl.startsWith('http')) {

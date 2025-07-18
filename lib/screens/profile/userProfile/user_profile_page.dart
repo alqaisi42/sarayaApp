@@ -381,7 +381,7 @@ class UserProfilePageState extends State<UserProfilePage> {
                             ? (userProfile!.contains('http')
                             ? NetworkImage(userProfile!)
                             : FileImage(File(userProfile!)))
-                            : AssetImage('assets/img/logo.png') as ImageProvider),
+                            : AssetImage('assets/img/new_logo.png') as ImageProvider),
                       ),
                     ),
                     Positioned(

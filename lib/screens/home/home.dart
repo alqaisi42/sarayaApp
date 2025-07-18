@@ -26,6 +26,7 @@ import '../../bloc/categoryNewsBloc/category_bloc.dart';
 import '../../bloc/categoryNewsBloc/category_event.dart';
 import '../../bloc/channelBloc/channel_bloc.dart';
 import '../../bloc/channelBloc/channel_event.dart';
+import '../../bloc/chatBotBloc/chatbot_bloc.dart';
 import '../../bloc/followedChannelsPostBloc/followed_channels_post_bloc.dart';
 import '../../bloc/followedChannelsPostBloc/followed_channels_post_event.dart';
 import '../../bloc/getSettingsBloc/get_settings_bloc.dart';
@@ -58,6 +59,11 @@ import '../../notification_service.dart';
 
 import '../../utils/widgets/no_internet_screen.dart';
 
+import '../chatbot/chatbot_screen.dart';
+import 'BreakingNewsWidget/BreakingNewsBloc.dart';
+import 'BreakingNewsWidget/BreakingNewsEvent.dart';
+import 'BreakingNewsWidget/BreakingNewsWidget.dart';
+import 'BreakingNewsWidget/news_repository.dart';
 import 'categoryNews/category_news.dart';
 import 'stories/homepage_stories.dart';
 
@@ -202,9 +208,6 @@ class _MyHomeState extends State<MyHome> with TickerProviderStateMixin {
                   physics: AlwaysScrollableScrollPhysics(),
                   child: Column(
                     children: [
-                      SizedBox(height: 10,),
-                      HomepageStories(),
-                      CustomSlider(),
                       BlocBuilder<LocationBloc, LocationState>(
                         builder: (context, state) {
                           if (state is LocationSuccess) {
@@ -225,10 +228,23 @@ class _MyHomeState extends State<MyHome> with TickerProviderStateMixin {
                             return  SizedBox.shrink();
                           }
                         },
-                      )
-                      ,
+                      ),
+
+                      // CustomSlider(),
+
+                      // SizedBox(height: 5),
+                      BlocProvider(
+                        create: (context) {
+                          final bloc = BreakingNewsBloc(newsRepository: NewsRepository());
+                          Future.microtask(() => bloc.add(FetchBreakingNews(context: context)));
+                          return bloc;
+                        },
+                        child: BreakingNewsWidget(),
+                      ),
                       PopularNews(),
                       Publisher(),
+                      SizedBox(height: 10,),
+                      HomepageStories(),
                       UserFollowedChannelNews(),
                       Recommendation(),
                     ],
@@ -292,7 +308,7 @@ class _MyHomeState extends State<MyHome> with TickerProviderStateMixin {
                    title: Row(
                      mainAxisAlignment: MainAxisAlignment.start,
                      children: [
-                       Image.asset("assets/img/logo.png", height: 27,),
+                       Image.asset("assets/img/new_logo.png", height: 27,),
                        SizedBox(width: 10,),
                        Text(
                          AppLocalizations.of(context)!.appName,
@@ -431,15 +447,49 @@ class _MyHomeState extends State<MyHome> with TickerProviderStateMixin {
                      children: tabContent,
                    ),
                  ),
-                 floatingActionButton: FloatingActionButton(
-                   onPressed: () {
-                     context.pushNamed('discoversearch');
-                   },
-                   child: Icon(Remix.search_2_line),
-                   backgroundColor: Theme.of(context).colorScheme.primary,
-                   foregroundColor: AppColors().primaryColor,
-                 ),
-               );
+              floatingActionButton: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  FloatingActionButton(
+                    heroTag: 'chatbot_fab',
+                    onPressed: () {
+                      final bloc = context.read<ChatBotBloc>();
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => BlocProvider.value(
+                            value: bloc,
+                            child: const ChatBotScreen(),
+                          ),
+                        ),
+                      );
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(24),
+                      child: Image.asset(
+                        'assets/img/bot.png',
+                        width: 50,
+                        height: 50,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    foregroundColor: Colors.white,
+                  ),
+                  const SizedBox(height: 12),
+                  FloatingActionButton(
+                    heroTag: 'search_fab',
+                    onPressed: () {
+                      context.pushNamed('discoversearch');
+                    },
+                    child: Icon(Remix.search_2_line),
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    foregroundColor: AppColors().primaryColor,
+                  ),
+                ],
+              ),
+
+            );
           },
         );
 

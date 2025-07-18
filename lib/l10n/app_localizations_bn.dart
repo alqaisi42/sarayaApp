@@ -54,6 +54,13 @@ class AppLocalizationsBn extends AppLocalizations {
   String get theme => 'থিম';
 
   @override
+  String get sarayaBotWelcome =>
+      '👋 Welcome! Tell us your issue or feedback clearly, mention the place, issue type, and any important details. Leave your phone if you\'d like a follow-up.';
+
+  @override
+  String get breakingNews => 'Breaking News';
+
+  @override
   String get you => 'আপনি';
 
   @override
@@ -86,6 +93,9 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get privacyPolicy => 'গোপনীয়তা নীতি';
+
+  @override
+  String get urgent => 'Urgent';
 
   @override
   String get getStarted => 'শুরু করুন';
@@ -210,6 +220,9 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get share => 'শেয়ার করুন';
+
+  @override
+  String get sarayaBotTitle => 'Ain Saraya';
 
   @override
   String get logInWithApple => 'অ্যাপল দিয়ে লগ ইন করুন';

@@ -205,7 +205,7 @@ class RegisterHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Image.asset("assets/img/logo.png",height:MediaQueryHelper.screenHeight(context) * 0.2,),
+        Image.asset("assets/img/new_logo.png",height:MediaQueryHelper.screenHeight(context) * 0.2,),
         SizedBox(
           height: MediaQueryHelper.screenHeight(context) * 0.01,
         ),

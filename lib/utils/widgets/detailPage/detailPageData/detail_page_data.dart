@@ -474,8 +474,8 @@ class DetailpageData extends StatefulWidget {
                       children: [
                         TranslatedText(
                           style:  TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w900,
                             fontFamily: fontType,
                           ), text: widget.title,
                         ),
@@ -552,7 +552,7 @@ class DetailpageData extends StatefulWidget {
                         Text(
                           widget.publishDate,
                           style:  TextStyle(
-                            fontSize: 16,
+                            fontSize: 11,
                             color: AppColors(context).isDark ? Colors.grey[350] : Colors.grey[600],
                             fontFamily: fontType,
                           ),
@@ -677,7 +677,7 @@ class DetailpageData extends StatefulWidget {
                     ),
                   ),
                   SizedBox(
-                      height: MediaQueryHelper.screenHeight(context) * 0.023),
+                      height: MediaQueryHelper.screenHeight(context) * 0.039),
 
 
                   if(widget.resource.isNotEmpty)...[
@@ -685,9 +685,9 @@ class DetailpageData extends StatefulWidget {
                       height: 36,
                       width: 240 ,
                       decoration: BoxDecoration(
-                        color: Colors.blue,
-                        border: Border.all(color: Colors.blue),
-                        borderRadius: BorderRadius.circular(8),
+                        color: AppColors().primaryColor,
+                        border: Border.all(color: AppColors().primaryColor),
+                        borderRadius: BorderRadius.circular(5),
                       ),
                       child: TextButton(
                         onPressed: () {

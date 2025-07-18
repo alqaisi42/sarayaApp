@@ -11,6 +11,7 @@ import '../../../bloc/weatherBloc/weather_bloc.dart';
 
 import '../../../bloc/weatherBloc/weather_event.dart';
 import '../../../bloc/weatherBloc/weather_state.dart';
+import '../../../config/colors.dart';
 import '../../../config/helper/helper_functions.dart';
 import '../../../config/shimmer.dart';
 
@@ -26,6 +27,10 @@ class WeatherUI extends StatefulWidget {
 }
 
 class _WeatherUIState extends State<WeatherUI> {
+  bool _isExpanded = false;
+  final Duration _animationDuration = const Duration(milliseconds: 300);
+  final Curve _curve = Curves.easeInOut;
+
   double kelvinToCelsius(dynamic kelvin) {
     if (kelvin == null) return 0.0;
     return (kelvin is int ? kelvin.toDouble() : kelvin) - 273.15;
@@ -38,30 +43,38 @@ class _WeatherUIState extends State<WeatherUI> {
   }
 
   @override
-
   Widget build(BuildContext context) {
     return BlocBuilder<WeatherBloc, WeatherState>(
       builder: (context, state) {
         if (state is WeatherLoadingState) {
           return ShimmerWidget(
             width: MediaQueryHelper.screenWidth(context),
-            height: MediaQueryHelper.screenHeight(context) * 0.2,
-            margin: EdgeInsets.only(left: MediaQueryHelper.screenWidth(context) * 0.04, right: MediaQueryHelper.screenWidth(context) * 0.04,top: MediaQueryHelper.screenHeight(context) * 0.03),
+            height: MediaQueryHelper.screenHeight(context) * 0.12,
+            margin: EdgeInsets.symmetric(
+              horizontal: MediaQueryHelper.screenWidth(context) * 0.04,
+              vertical: MediaQueryHelper.screenHeight(context) * 0.03,
+            ),
           );
         }
 
         return Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: MediaQueryHelper.screenWidth(context) * 0.05,
-            vertical: MediaQueryHelper.screenHeight(context) * 0.01,
+            vertical: MediaQueryHelper.screenHeight(context) * 0.001,
           ),
-          child: Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
-              borderRadius: BorderRadius.circular(15),),
-            child: _buildWeatherContent(state),
+          child: GestureDetector(
+            onTap: () => setState(() => _isExpanded = !_isExpanded),
+            child: AnimatedContainer(
+              duration: _animationDuration,
+              curve: _curve,
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary,
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: _buildWeatherContent(state),
+            ),
           ),
+
         );
       },
     );
@@ -73,87 +86,109 @@ class _WeatherUIState extends State<WeatherUI> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.error_outline, size: 48, color: Colors.red),
+            Icon(Icons.error_outline, size: 48, color: Colors.red),
             const SizedBox(height: 16),
             Text(
               state.errorMessage,
               textAlign: TextAlign.center,
-              style:  TextStyle(color: Colors.red,fontFamily: fontType),
+              style: TextStyle(color: AppColors().primaryColor, fontFamily: fontType),
             ),
           ],
         ),
       );
     } else if (state is WeatherSuccessState) {
       final weather = state.weatherData;
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      final isDark = Theme.of(context).brightness == Brightness.dark;
+      final arrowColor = isDark ? Colors.grey.shade300 : Colors.black;
+
+      return AnimatedSize(
+        duration: _animationDuration,
+        curve: _curve,
+        alignment: Alignment.topCenter,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            /// Header: always visible
+            GestureDetector(
+              onTap: () => setState(() => _isExpanded = !_isExpanded),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    weather.name ?? '',
-                    style:  TextStyle(fontSize: 18,fontFamily: fontType),
+                  /// Location + Country
+                  Row(
+                    children: [
+                      Text(
+                        weather.name ?? '',
+                        style: TextStyle(fontSize: 13, fontFamily: fontType),
+                      ),
+                      const SizedBox(width: 6),
+                      if (weather.sys?.country != null)
+                        Text(
+                          weather.sys!.country!,
+                          style: TextStyle(fontSize: 11, fontFamily: fontType),
+                        ),
+                    ],
                   ),
-                  SizedBox(width: MediaQueryHelper.screenWidth(context) * 0.01),
-                  if (weather.sys?.country != null)
-                    Text(
-                      weather.sys!.country!,
-                      style: const TextStyle(fontSize: 16,fontFamily: fontType),
-                    ),
+
+                  /// Temp + Icon + Arrow
+                  Row(
+                    children: [
+                      WeatherIconWidget(icon: weather.weather?[0].icon),
+                      const SizedBox(width: 8),
+                      Text(
+                        '${kelvinToCelsius(weather.main?.temp).round()}°C',
+                        style: TextStyle(fontSize: 13, fontFamily: fontType),
+                      ),
+                      Icon(
+                        _isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                        size: 23,
+                        color: arrowColor,
+                      ),
+                    ],
+                  ),
                 ],
               ),
-              Row(
-                children: [
-                  WeatherIconWidget(icon: weather.weather?[0].icon),
-                  SizedBox(width: 8,),
-                  Text(
-                    '${kelvinToCelsius(weather.main?.temp).round()}°C',
-                    style: const TextStyle(fontSize: 18,fontFamily: fontType),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          SizedBox(height: MediaQueryHelper.screenHeight(context) * 0.005),
-          if (weather.weather?.isNotEmpty ?? false)
-            Text(
-              weather.weather![0].description?.toUpperCase() ?? '',
-              style: const TextStyle(fontSize: 14,fontFamily: fontType),
             ),
-          SizedBox(height: MediaQueryHelper.screenHeight(context) * 0.005),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _buildWeatherDetail(
-                context,
-                AppLocalizations.of(context)!.humidity,
-                '${_toDouble(weather.main?.humidity).round()}%',
-                Icons.water_drop,
-              ),
-              _buildWeatherDetail(
-                context,
-                AppLocalizations.of(context)!.wind,
-                '${_toDouble(weather.wind?.speed).toStringAsFixed(1)} m/s',
-                Icons.air,
-              ),
-              _buildWeatherDetail(
-                context,
-                AppLocalizations.of(context)!.pressure,
-                '${_toDouble(weather.main?.pressure).round()} hPa',
-                Icons.speed,
+
+            /// Expanded details
+            if (_isExpanded) ...[
+              SizedBox(height: MediaQueryHelper.screenHeight(context) * 0.01),
+              if (weather.weather?.isNotEmpty ?? false)
+                Text(
+                  weather.weather![0].description?.toUpperCase() ?? '',
+                  style: TextStyle(fontSize: 10, fontFamily: fontType),
+                ),
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _buildWeatherDetail(
+                    context,
+                    AppLocalizations.of(context)!.humidity,
+                    '${_toDouble(weather.main?.humidity).round()}%',
+                    Icons.water_drop,
+                  ),
+                  _buildWeatherDetail(
+                    context,
+                    AppLocalizations.of(context)!.wind,
+                    '${_toDouble(weather.wind?.speed).toStringAsFixed(1)} m/s',
+                    Icons.air,
+                  ),
+                  _buildWeatherDetail(
+                    context,
+                    AppLocalizations.of(context)!.pressure,
+                    '${_toDouble(weather.main?.pressure).round()} hPa',
+                    Icons.speed,
+                  ),
+                ],
               ),
             ],
-          ),
-        ],
+          ],
+        ),
       );
     }
-    return const Center(
-      child: Text(''),
-    );
+
+    return const SizedBox.shrink();
   }
 
   double _toDouble(dynamic value) {
@@ -163,25 +198,14 @@ class _WeatherUIState extends State<WeatherUI> {
     return 0.0;
   }
 
-  Widget _buildWeatherDetail(
-      BuildContext context,
-      String label,
-      String value,
-      IconData icon,
-      ) {
+  Widget _buildWeatherDetail(BuildContext context, String label, String value, IconData icon) {
     return Column(
       children: [
-        Icon(icon, size: 24, color: Colors.red),
+        Icon(icon, size: 24, color: AppColors().primaryColor),
         const SizedBox(height: 8),
-        Text(
-          label,
-          style: TextStyle(fontFamily: fontType),
-        ),
+        Text(label, style: TextStyle(fontFamily: fontType)),
         const SizedBox(height: 4),
-        Text(
-          value,
-          style: TextStyle(fontFamily: fontType)
-        ),
+        Text(value, style: TextStyle(fontFamily: fontType)),
       ],
     );
   }

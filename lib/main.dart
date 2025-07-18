@@ -433,35 +433,39 @@ class _MyAppState extends State<MyApp> {
           builder: (context, themeState) {
             return BlocBuilder<LanguageBloc, LanguageState>(
               builder: (context, languageState) {
-                return Stack(
-                  children: [
-                    MaterialApp.router(
-                      key: navigatorKey,
-                      localizationsDelegates: const [
-                        AppLocalizations.delegate,
-                        GlobalMaterialLocalizations.delegate,
-                        GlobalWidgetsLocalizations.delegate,
-                        GlobalCupertinoLocalizations.delegate,
-                      ],
-                      locale: languageState.locale,
-                      supportedLocales: supportedLocales,
-                      debugShowCheckedModeBanner: false,
-                      routerConfig: router,
-                      theme: lightMode,
-                      darkTheme: darkMode,
-                      themeMode: themeState,
-                    ),
-                    const Positioned(
-                      bottom: 16,
-                      right: 16,
-                      child: ChatBotFloatButton(),
-                    ),
+                return MaterialApp.router(
+                  key: navigatorKey,
+                  localizationsDelegates: const [
+                    AppLocalizations.delegate,
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
                   ],
+                  locale: languageState.locale,
+                  supportedLocales: supportedLocales,
+                  debugShowCheckedModeBanner: false,
+                  routerConfig: router,
+                  theme: lightMode,
+                  darkTheme: darkMode,
+                  themeMode: themeState,
+                  // builder: (context, child) {
+                  //   return Stack(
+                  //     children: [
+                  //       child!,
+                  //       Positioned(
+                  //         bottom: 16,
+                  //         right: 16,
+                  //         child: ChatBotFloatButton(),
+                  //       ),
+                  //     ],
+                  //   );
+                  // },
                 );
-                },
+              },
             );
           },
-        ),
+        )
+
       )
     );
   }

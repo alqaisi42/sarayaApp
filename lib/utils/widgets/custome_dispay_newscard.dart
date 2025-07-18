@@ -65,11 +65,11 @@ class _DisplayPopularNewsState extends State<DisplayPopularNews> {
         vertical: MediaQueryHelper.screenHeight(context) * 0.01,
       ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(5),
         color: Theme.of(context).colorScheme.primary,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha:  0.2), 
+            color: Colors.black.withValues(alpha:  0.1),
             blurRadius: 10, 
             spreadRadius: 1, 
             offset: Offset(0, 4), 
@@ -78,7 +78,7 @@ class _DisplayPopularNewsState extends State<DisplayPopularNews> {
         ],
       ),
       child: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -90,7 +90,7 @@ class _DisplayPopularNewsState extends State<DisplayPopularNews> {
                     Hero(
                       tag: 'news-${widget.slug}',
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(14),
+                        borderRadius: BorderRadius.circular(5),
                         child: ImageUtils.networkImage(
                           widget.postType == 'video' ? widget.videoThumb : widget.coverImg,
                           fit: BoxFit.cover,
@@ -104,7 +104,7 @@ class _DisplayPopularNewsState extends State<DisplayPopularNews> {
                         child: Container(
                           decoration: BoxDecoration(
                             color: Colors.black.withValues(alpha:0.3),
-                            borderRadius: BorderRadius.circular(14),
+                            borderRadius: BorderRadius.circular(5),
                           ),
                         ),
                       ),
@@ -296,11 +296,11 @@ class ViewCountDisplay extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
                 color: Colors.blue.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(5),
 
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(5),
                 child: BackdropFilter(
                   filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                   child: Row(

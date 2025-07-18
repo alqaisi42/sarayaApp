@@ -35,7 +35,7 @@ class StoryCard extends StatelessWidget {
           child: Card(
             elevation: 2,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(6),
             ),
             clipBehavior: Clip.antiAlias,
             child: Stack(

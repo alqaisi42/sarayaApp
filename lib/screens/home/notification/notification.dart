@@ -291,7 +291,7 @@ class _DisplayNotificationState extends State<DisplayNotification> {
                   Icon(
                     Icons.error_outline_rounded,
                     size: 60,
-                    color: AppColors().primaryColor.shade300,
+                    color: AppColors().primaryColor,
                   ),
 
                   SizedBox(height: 10),

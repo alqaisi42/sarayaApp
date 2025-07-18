@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+import '../../config/colors.dart';
+
 
 
 class YoutubePlayerDemoApp extends StatefulWidget {
@@ -69,7 +71,7 @@ class _YoutubePlayerDemoAppState extends State<YoutubePlayerDemoApp> {
       player: YoutubePlayer(
         controller: controller,
         showVideoProgressIndicator: true,
-        progressIndicatorColor: Colors.blueAccent,
+        progressIndicatorColor: AppColors().primaryColor,
         topActions: <Widget>[
           const SizedBox(width: 8.0),
           Expanded(
@@ -84,21 +86,21 @@ class _YoutubePlayerDemoAppState extends State<YoutubePlayerDemoApp> {
             ),
           ),
         ],
-        bottomActions: const [
-          SizedBox(width: 14.0),
-          CurrentPosition(),
-          SizedBox(width: 8.0),
+        bottomActions: [
+          const SizedBox(width: 14.0),
+          const CurrentPosition(),
+          const SizedBox(width: 8.0),
           ProgressBar(
             isExpanded: true,
             colors: ProgressBarColors(
-              playedColor: Colors.blueAccent,
-              handleColor: Colors.blueAccent,
+              playedColor: AppColors().primaryColor,
+              handleColor: AppColors().primaryColor,
             ),
           ),
-          SizedBox(width: 8.0),
-          RemainingDuration(),
-          SizedBox(width: 14.0),
-          FullScreenButton(),
+          const SizedBox(width: 8.0),
+          const RemainingDuration(),
+          const SizedBox(width: 14.0),
+          const FullScreenButton(),
         ],
       ),
       builder: (context, player) => Scaffold(

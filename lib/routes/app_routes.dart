@@ -25,6 +25,7 @@ import '../bloc/searchResultBloc/search_result_bloc.dart';
 import '../bloc/searchResultBloc/search_result_event.dart';
 
 
+import '../screens/home/BreakingNewsWidget/BreakingNewsPage.dart';
 import '../screens/home/notification/notification.dart';
 import '../screens/home/publisher/publisher_all.dart';
 import '../screens/home/recommendationNews/recommedation_all.dart';
@@ -142,6 +143,12 @@ GoRoute(
       name: 'channelsPreference',
       pageBuilder: (context, state) =>
           MaterialPage(child: ChannelsPreference()),
+    ),
+
+    GoRoute(
+      name: 'breakingNews',
+      path: '/breakingNews',
+      builder: (context, state) => BreakingNewsPage(), // create this screen
     ),
 
     GoRoute(
