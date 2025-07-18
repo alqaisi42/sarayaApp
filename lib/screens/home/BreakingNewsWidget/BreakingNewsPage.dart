@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newsapp/config/colors.dart';
 import 'package:newsapp/l10n/app_localizations.dart';
 import 'package:newsapp/utils/widgets/no_internet_screen.dart';
+import '../../../utils/widgets/custome_dispay_newscard.dart';
 import '../../../config/check_internet.dart';
 import '../../../config/helper/empty_state_ui.dart';
 import '../../../config/helper/helper_functions.dart';
@@ -98,23 +99,27 @@ class _BreakingNewsPageState extends State<BreakingNewsPage> {
               return ListView.builder(
                 controller: _scrollController,
                 itemCount: state.breakingNews.length,
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.symmetric(horizontal: 12),
                 itemBuilder: (context, index) {
                   final news = state.breakingNews[index];
-                  return Card(
-                    margin: const EdgeInsets.only(bottom: 12),
-                    elevation: 3,
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.all(12),
-                      leading: news.image != null
-                          ? Image.network(news.image!, width: 60, height: 60, fit: BoxFit.cover)
-                          : null,
-                      title: Text(news.title ?? '', maxLines: 2, overflow: TextOverflow.ellipsis),
-                      subtitle: Text(news.pubDate ?? '', style: const TextStyle(fontSize: 12)),
-                      onTap: () {
-                        // Assuming you already have a route or navigation for the detail page
-                        Navigator.pushNamed(context, '/post/${news.slug}');
-                      },
+                  return GestureDetector(
+                    onTap: () => checkLimitAndNavigate(context, news.slug ?? ''),
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: DisplayPopularNews(
+                        id: news.id ?? 0,
+                        viewCount: news.viewCount ?? 0,
+                        coverImg: news.image ?? '',
+                        title: news.title ?? '',
+                        channelSlug: news.channelSlug ?? '',
+                        logo: news.channelLogo ?? '',
+                        publisher: news.channelName ?? '',
+                        time: news.pubDate ?? '',
+                        slug: news.slug ?? '',
+                        postType: news.type ?? '',
+                        videoThumb: news.videoThumb ?? '',
+                        video: news.video ?? '',
+                      ),
                     ),
                   );
                 },
